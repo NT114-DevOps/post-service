@@ -1,34 +1,11 @@
 require('dotenv').config()
 
 // Create express
-const express = require('express');
-const cors = require('cors');
-const app = express();
-app.use(express.json());
-app.use(cors());
+const app = require('./app');
+
 
 // Set port
 const port = process.env.PORT || 8001;
-
-const {
-    getPosts,
-    getOnePost,
-    createPost,
-    deletePost
-} = require('./controllers/postController')
-
-app.get('/', getPosts);
-
-// Get one ticket
-app.get('/:id', getOnePost);
-
-// Create a new ticket
-app.post('/', createPost);
-
-app.delete('/:id', deletePost);
-
-
-
 // Connect database
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URI)

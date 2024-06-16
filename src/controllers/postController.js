@@ -9,12 +9,21 @@ const getPosts = async(req, res) => {
 
 const getOnePost = async(req, res) => {
     const { id } = req.params;
-    let pid = new mongoose.Types.ObjectId(id);
-    let post = await Post.findById(pid);
-    if (!post) {
-        res.status(404).json({ message: 'Post not found' });
+    if (id == 'status' || id == '') {
+        console.log(id);
+        return ;
     }
-    res.status(200).json(post);
+    Post.findById(req.params.id)
+    .then((post) => {
+        if (!post) {
+            res.status(404).json({ message: 'Post not found' });
+        }
+        else res.status(200).json(post);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    });
 }
 
 const createPost = async(req, res) => {
